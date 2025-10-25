@@ -481,7 +481,57 @@
                 padding: 12px 25px;
                 font-size: 1rem;
             }
+
         }
+        @media (max-width: 480px) {
+    .photo-frame {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .countdown {
+        gap: 10px;
+    }
+    
+    .countdown-item {
+        min-width: 60px;
+        padding: 8px;
+    }
+    
+    .countdown-number {
+        font-size: 1.3rem;
+    }
+    
+    .interactive-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+} 
+
+/* ========== EMOJIS CAINDO ========== */
+.emoji {
+    position: fixed;
+    font-size: 24px;
+    animation: fallEmoji linear forwards;
+    z-index: -1;
+    pointer-events: none;
+    user-select: none;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    will-change: transform;
+    top: -50px;
+}
+
+@keyframes fallEmoji {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+/* ========== FIM EMOJIS ========== */
     </style>
 </head>
 <body>
@@ -510,26 +560,32 @@
                 <div class="message">
                     <p>Dia 22 de outubro é um dia especial porque o mundo ganhou você. E eu ganhei do mundo por ter você cmg vida💕.</p>
                     <p>Cada momento ao seu lado é um presente que guardo com carinho no meu coração.</p>
-                </div>
-
                 <div class="countdown">
-                    <div class="countdown-item">
-                        <div class="countdown-number" id="days">0</div>
-                        <div class="countdown-label">Dias</div>
-                    </div>
-                    <div class="countdown-item">
-                        <div class="countdown-number" id="hours">0</div>
-                        <div class="countdown-label">Horas</div>
-                    </div>
-                    <div class="countdown-item">
-                        <div class="countdown-number" id="minutes">0</div>
-                        <div class="countdown-label">Minutos</div>
-                    </div>
-                    <div class="countdown-item">
-                        <div class="countdown-number" id="seconds">0</div>
-                        <div class="countdown-label">Segundos</div>
-                    </div>
-                </div>
+    <!-- ADICIONE ESTE TÍTULO -->
+    <div class="countdown-title">
+        <h3>📅 Estamos Juntos a essa tantão de tempo aikk 💏💖</h3>
+        <p>Nosso amor começou 20 de Maio de 2021</p>
+    </div>
+    
+    <div class="countdown-item">
+        <div class="countdown-number" id="days">0</div>
+        <div class="countdown-label">Dias Juntos</div>
+    </div>
+    <div class="countdown-item">
+        <div class="countdown-number" id="hours">0</div>
+        <div class="countdown-label">Horas</div>
+    </div>
+    <div class="countdown-item">
+        <div class="countdown-number" id="minutes">0</div>
+        <div class="countdown-label">Minutos</div>
+    </div>
+    <div class="countdown-item">
+        <div class="countdown-number" id="seconds">0</div>
+        <div class="countdown-label">Segundos</div>
+    </div>
+</div>
+                 
+                    
 
                 <button class="interactive-btn" id="loveBtn">💖🎂</button>
                 <div class="hidden-message" id="hiddenMessage">
@@ -566,15 +622,30 @@
                 <div class="gallery-item">
                     <img src="https://i.postimg.cc/2ynf434Y/20230615-195316.jpg" alt="Memória 4">
                     <div class="gallery-caption">Momento tranquilo juntos🐱‍👤💖</div>
-                </div>
-            </div>
+                    </div>
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/vHBDsp6F/IMG-20210531-WA0016.jpg" alt="Memória 5">
+                    <div class="gallery-caption">foto engraçada nossa(meio antiga mas gosto mt dessa) 💕</div>
+                    </div>
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/PrxbRVXd/Screenshot-20230801-115046-Gallery.jpg" alt="Memória 6">
+                    <div class="gallery-caption">gosto mt desse seu jeitinho🥰</div>
+                    </div>
+                <div class="gallery-item">
+                    <img src="https://i.postimg.cc/9MDRBKP6/20240411-115320.jpg" alt="Memória 7">
+                <div class="gallery-caption">coisas que faz você ser você mesma🌟</div>
+                    </div>
+                    <div class="gallery-item">
+                    <img src="https://i.postimg.cc/C1bYY4wC/IMG-20210524-WA0013.jpg" alt="Memória 7">
+                    <div class="gallery-caption">KKKKK🥰🐰 🌟</div>
+                    </div>
         </section>
 
         <section id="love-letter">
             <h2>Minha Carta Para Você</h2>
             
             <div class="love-letter">
-                <p>Meu amor,</p>
+                <p>Meu amor🥵💖,</p>
                 
                 <p>Escrever estas palavras é tentar colocar em frases o que sinto por você - uma tarefa quase impossível, pois o que sinto transcende qualquer linguagem,tanto linguagem de programação tanto quanto linguagem "humana".</p>
                 
@@ -588,7 +659,7 @@
                 
                 <p>Te amo hoje, amanhã e sempre baby.</p>
                 
-                <div class="signature">Com todo meu amor,<br>teiofellas.py<br>yumi,paimon<br>tobi,frajola(pai)<br>gringo,ludmillo<br>robin,tonho<br>gorda,esmilinguido<br>lasanha,escaminha<br>tricoloar,paloma<br>rajadinho,oniguiri<br>garfild,morcego<br>negona,hulk,safira 💖💕❤<br><br><br><br><br>
+                <div class="signature">Com todo meu amor,<br>teiofellas.py<br>yumi,paimon<br>tobi,frajola(pai)<br>gringo,ludmillo<br>robin,tonho<br>gorda,esmilinguido<br>lasanha,escaminha<br>tricoloar,paloma<br>rajadinho,oniguiri<br>garfild,morcego<br>negona,fumaça<br>flor,bolt,hulk,safira 💖💕❤<br><br><br><br><br>
     </div>
     </section>
     </div>
@@ -614,43 +685,37 @@
         // Detectar se é mobile
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
-        // Criar corações caindo - versão otimizada para mobile
-        function createHeart() {
-            // Reduzir quantidade de corações em mobile para melhorar performance
-            if (isMobile && Math.random() > 0.7) return;
-            
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            
-            // Tamanho aleatório
-            const size = Math.random() * 20 + 10;
-            heart.style.width = `${size}px`;
-            heart.style.height = `${size}px`;
-            
-            // Posição aleatória no topo
-            heart.style.left = Math.random() * 100 + 'vw';
-            
-            // Cor aleatória entre tons de rosa
-            const colors = ['#8B1E3F', '#B23A48', '#FCB0B3', '#FF4D6D'];
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            heart.style.backgroundColor = color;
-            
-            // Duração da animação aleatória
-            const duration = Math.random() * 5 + 5;
-            heart.style.animationDuration = `${duration}s`;
-            
-            document.body.appendChild(heart);
-            
-            // Remover o coração após a animação
-            setTimeout(() => {
-                if (heart.parentNode) {
-                    heart.parentNode.removeChild(heart);
-                }
-            }, duration * 1000);
+    // Criar emojis caindo - SUBSTITUI OS CORAÇÕES
+function createEmoji() {
+    if (isMobile && Math.random() > 0.7) return;
+    
+    const emojis = ['💖', '🕷', '🦇'];
+    const emoji = document.createElement('div');
+    emoji.classList.add('emoji');
+    
+    const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+    emoji.textContent = randomEmoji;
+    
+    const size = Math.random() * 30 + 20;
+    emoji.style.fontSize = `${size}px`;
+    emoji.style.left = Math.random() * 100 + 'vw';
+    emoji.style.top = '-50px';
+    
+    const duration = Math.random() * 6 + 4;
+    emoji.style.animationDuration = `${duration}s`;
+    emoji.style.opacity = Math.random() * 0.7 + 0.3;
+    
+    document.body.appendChild(emoji);
+    
+    setTimeout(() => {
+        if (emoji.parentNode) {
+            emoji.parentNode.removeChild(emoji);
         }
+    }, duration * 1000);
+}
 
-        // Criar corações em intervalos regulares - ajustado para mobile
-        let heartInterval = setInterval(createHeart, isMobile ? 800 : 400);
+// Criar emojis em intervalos regulares
+let emojiInterval = setInterval(createEmoji, isMobile ? 600 : 300);
 
         // Controle de música
         const musicToggle = document.getElementById('musicToggle');
@@ -700,13 +765,13 @@
         const hiddenMessage = document.getElementById('hiddenMessage');
         
         loveBtn.addEventListener('click', () => {
-            hiddenMessage.style.display = hiddenMessage.style.display === 'block' ? 'none' : 'block';
-            
-            // Criar corações extras quando clicar
-            for (let i = 0; i < (isMobile ? 8 : 15); i++) {
-                setTimeout(createHeart, i * 100);
-            }
-        });
+    hiddenMessage.style.display = hiddenMessage.style.display === 'block' ? 'none' : 'block';
+    
+    // Criar EMOJIS extras quando clicar
+    for (let i = 0; i < (isMobile ? 8 : 15); i++) {
+        setTimeout(createEmoji, i * 100); // ⬅️ TROQUE createHeart por createEmoji
+    }
+});
 
         const memoryBtn = document.getElementById('memoryBtn');
         const memoryMessage = document.getElementById('memoryMessage');
@@ -833,13 +898,15 @@
         document.addEventListener('touchstart', initAudio);
         
         // Pausar animações quando a página não está visível (para economizar bateria)
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                clearInterval(heartInterval);
-            } else {
-                heartInterval = setInterval(createHeart, isMobile ? 800 : 400);
-            }
-        });
+        // Pausar animações quando a página não está visível
+document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+        clearInterval(emojiInterval);
+        // ⬅️ REMOVA ESTA LINHA: clearInterval(heartInterval);
+    } else {
+        emojiInterval = setInterval(createEmoji, isMobile ? 600 : 300);
+    }
+});
     </script>
 </body>
 </html>
