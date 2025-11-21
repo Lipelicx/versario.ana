@@ -46,6 +46,19 @@
             will-change: transform;
         }
 
+        /* Vídeo de fundo (5s) */
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -3;
+            opacity: 0;
+            transition: opacity 1s ease;
+            pointer-events: none;
+        }
         .photo-slide {
             position: absolute;
             width: 100%;
@@ -540,6 +553,12 @@
     </div>
 
     <div class="photo-background" id="photoBackground">
+        <!-- Vídeo de fundo (substitua pelos seus ficheiros: background-5s.mp4 / background-5s.webm) -->
+        <video id="bgVideo" class="video-background" autoplay muted loop playsinline preload="auto" poster="poster.jpg">
+            <source src="background-5s.mp4" type="video/mp4">
+            <source src="background-5s.webm" type="video/webm">
+            Seu navegador não suporta o elemento <code>video</code>.
+        </video>
         <!-- As fotos serão inseridas via JavaScript -->
     </div>
 
@@ -788,11 +807,35 @@ let emojiInterval = setInterval(createEmoji, isMobile ? 600 : 300);
         let currentSlide = 0;
         const slides = document.querySelectorAll('.photo-slide');
         
-        setInterval(() => {
+        // armazenar intervalo para podermos pará-lo quando o vídeo estiver disponível
+        const slideInterval = setInterval(() => {
             slides[currentSlide].style.opacity = 0;
             currentSlide = (currentSlide + 1) % slides.length;
             slides[currentSlide].style.opacity = 1;
         }, 5000);
+
+        // Se o vídeo de fundo estiver presente, mostrar o vídeo quando pronto
+        const bgVideo = document.getElementById('bgVideo');
+        if (bgVideo) {
+            // começar invisível (CSS); quando estiver carregado mostramos com fade
+            bgVideo.style.opacity = 0;
+
+            bgVideo.addEventListener('canplaythrough', () => {
+                try {
+                    // Mostrar o vídeo e esconder as fotos
+                    bgVideo.style.opacity = 1;
+                    slides.forEach(s => s.style.opacity = 0);
+                    if (typeof slideInterval !== 'undefined') clearInterval(slideInterval);
+                } catch (e) {
+                    console.warn('Erro ao ativar vídeo de fundo:', e);
+                }
+            });
+
+            // Segurança adicional: se o vídeo não puder ser reproduzido, mantemos o slideshow
+            bgVideo.addEventListener('error', (e) => {
+                console.warn('Erro no vídeo de fundo, fallback para slideshow.', e);
+            });
+        }
 
         // Contador regressivo (ajuste a data do aniversário)
        function updateCountdown() {
