@@ -22,8 +22,10 @@
         html {
             scroll-behavior: smooth;
         }
-
+             
+    
         body {
+            
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--dark-bg);
             color: var(--text-light);
@@ -69,6 +71,41 @@
             z-index: -3; /* atrás do vídeo quando ele carregar */
             transition: opacity 2s ease-in-out;
         }
+
+        /* Splash inicial */
+        #splash {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.75);
+            z-index: 2000;
+            color: var(--text-light);
+            transition: opacity 0.3s ease;
+        }
+
+        #startBtn {
+            background: transparent;
+            border: 2px solid var(--light-pink);
+            color: var(--light-pink);
+            width: 64px;
+            height: 64px;
+            padding: 0;
+            font-size: 1.6rem;
+            border-radius: 999px;
+            cursor: pointer;
+            outline: none;
+            transition: transform 0.15s ease, background 0.15s ease;
+        }
+
+        #startBtn:hover, #startBtn:focus {
+            transform: translateY(-3px);
+            background: rgba(242,242,242,0.03);
+        }
+
+        /* esconder conteúdo principal até o clique */
+        #mainContent.hidden { display: none; }
 
         .container {
             max-width: 1200px;
@@ -546,9 +583,103 @@
     }
 }
 /* ========== FIM EMOJIS ========== */
+            /* SEU CSS EXISTENTE CONTINUA AQUI... */
+
+        @media (max-width: 480px) {
+            /* ... seu CSS atual ... */
+        }
+
+        /* === CSS DA TELA INICIAL - COLE NO FINAL DO STYLE === */
+#start-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    background: rgba(13, 13, 13, 0.3); /* Fundo semi-transparente */
+}
+
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.video-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8; /* Deixa o vídeo mais visível */
+}
+
+.start-content {
+    background: rgba(0,0,0,0.35); /* mais discreto */
+    padding: 12px;
+    border-radius: 12px;
+    text-align: center;
+    backdrop-filter: blur(6px);
+    border: none;
+    box-shadow: none;
+    z-index: 1001;
+}
+
+.start-content.minimal .start-title,
+.start-content.minimal .start-subtitle {
+    display: none; /* esconder textos grandes para visual minimalista */
+}
+
+.start-hint {
+    font-size: 0.85rem;
+    color: rgba(242,242,242,0.9);
+    margin-top: 8px;
+    opacity: 0.9;
+}
+        /* Forçar o vídeo da tela inicial a ficar atrás do conteúdo da start-content,
+           mas visível na tela (override das regras genéricas de .video-background) */
+        #start-screen .video-background {
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            opacity: 1; /* garantir que o container do preview esteja visível */
+        }
+
+        #start-screen .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.95;
+            pointer-events: none;
+        }
+
+        /* === FIM CSS TELA INICIAL === */
     </style>
 </head>
 <body>
+    <!-- === TELA INICIAL - COLE AQUI === -->
+    <div id="start-screen">
+        <div class="video-background">
+            <video id="startPreviewVideo" autoplay muted loop playsinline preload="auto">
+                <source src="start.mp4" type="video/mp4">
+                Seu navegador não suporta o elemento <code>video</code>.
+            </video>
+        </div>
+        
+        <div class="start-content minimal">
+            <button class="start-btn" id="startBtn" aria-label="Entrar">▶</button>
+            <div class="start-hint">Toque para entrar</div>
+        </div>
+    </div>
+    <!-- === FIM TELA INICIAL === -->
+
+    <!-- O RESTO DO SEU SITE CONTINUA AQUI -->
     <div class="mobile-warning" id="mobileWarning">
         Toque na tela para ativar os efeitos especiais
     </div>
@@ -557,11 +688,7 @@
         <!-- Vídeo de fundo (substitua pelos seus ficheiros: background-5s.mp4 / background-5s.webm) -->
         <video id="bgVideo" class="video-background" autoplay muted loop playsinline preload="auto" poster="poster.jpg">
             <!-- Fonte padrão (mp4) -->
-            <source src="video-fundo2.mp4.mp4" type="video/mp4">
-            <!-- Fonte alternativa para o ficheiro que você tem em Downloads (sem precisar renomear) -->
-            <source src="video-fundo2.mp4.mp4" type="video/mp4">
-            <!-- WebM opcional -->
-            <source src="video-fundo2.mp4.mp4" type="video/webm">
+            <source src="start.mp4" type="video/mp4">
             Seu navegador não suporta o elemento <code>video</code>.
         </video>
         <!-- As fotos serão inseridas via JavaScript -->
@@ -571,7 +698,7 @@
         <!-- Os dots de navegação serão inseridos via JavaScript -->
     </div>
 
-    <div class="container">
+    <div id="mainContent" class="container hidden">
         <section id="hero" class="visible">
             <div class="hero">
                 <div class="photo-frame">
@@ -723,8 +850,8 @@ function createEmoji() {
     }, duration * 1000);
 }
 
-// Criar emojis em intervalos regulares
-let emojiInterval = setInterval(createEmoji, isMobile ? 600 : 300);
+// Criar emojis em intervalos regulares (iniciados após o clique)
+let emojiInterval = null;
 
         // Controle de música
         const musicToggle = document.getElementById('musicToggle');
@@ -842,6 +969,8 @@ let emojiInterval = setInterval(createEmoji, isMobile ? 600 : 300);
             });
         }
 
+        // NOTA: o handler do botão inicial é definido abaixo (consolidado)
+
         // Contador regressivo (ajuste a data do aniversário)
        function updateCountdown() {
     // Data do início: 20 de Maio de 2021
@@ -925,21 +1054,102 @@ let emojiInterval = setInterval(createEmoji, isMobile ? 600 : 300);
                 audioInitialized = true;
             }
         }
-        
-        // Permitir interação do usuário para iniciar áudio
-        document.addEventListener('click', initAudio);
-        document.addEventListener('touchstart', initAudio);
-        
-        // Pausar animações quando a página não está visível (para economizar bateria)
-        // Pausar animações quando a página não está visível
-document.addEventListener('visibilitychange', function() {
-    if (document.hidden) {
-        clearInterval(emojiInterval);
-        // ⬅️ REMOVA ESTA LINHA: clearInterval(heartInterval);
-    } else {
-        emojiInterval = setInterval(createEmoji, isMobile ? 600 : 300);
-    }
-});
+        // === CÓDIGO DA TELA INICIAL (CONSOLIDADO) ===
+        document.addEventListener('DOMContentLoaded', function() {
+            const startBtn = document.getElementById('startBtn');
+            const startScreen = document.getElementById('start-screen');
+            const startPreviewVideo = document.getElementById('startPreviewVideo');
+            const mainContent = document.getElementById('mainContent');
+
+            // tentar iniciar o preview (autoplay muted deve funcionar na maioria dos navegadores)
+            if (startPreviewVideo) {
+                startPreviewVideo.play().catch(e => {
+                    console.warn('Preview autoplay bloqueado ou falhou:', e);
+                });
+            }
+
+            if (!mainContent.classList.contains('hidden')) {
+                mainContent.classList.add('hidden');
+            }
+
+            if (startBtn && startScreen) {
+                startBtn.addEventListener('click', async function handler(e) {
+                    // evitar multi-clicks
+                    startBtn.disabled = true;
+                    startBtn.style.opacity = '0.8';
+
+                    // pausar preview se estiver tocando
+                    try {
+                        if (startPreviewVideo && !startPreviewVideo.paused) {
+                            startPreviewVideo.pause();
+                            startPreviewVideo.currentTime = 0;
+                        }
+                    } catch (err) {
+                        console.warn('Erro ao pausar preview:', err);
+                    }
+
+                    // efeito visual
+                    startScreen.style.opacity = '0';
+                    startScreen.style.transition = 'opacity 0.8s ease';
+
+                    setTimeout(() => {
+                        startScreen.style.display = 'none';
+                    }, 800);
+
+                    // revelar conteúdo principal
+                    if (mainContent) mainContent.classList.remove('hidden');
+
+                    // esconder aviso mobile
+                    const mw = document.getElementById('mobileWarning');
+                    if (mw) mw.style.display = 'none';
+
+                    // iniciar música (se houver)
+                    try {
+                        if (backgroundMusic && backgroundMusic.paused) {
+                            await backgroundMusic.play();
+                            document.getElementById('musicToggle').textContent = '🔊 Pausar Música';
+                        }
+                    } catch (err) {
+                        console.warn('Erro ao tocar música:', err);
+                    }
+
+                    // iniciar emojis periódicos
+                    if (!emojiInterval) {
+                        emojiInterval = setInterval(createEmoji, isMobile ? 600 : 300);
+                    }
+
+                    // tentar iniciar vídeo de fundo
+                    try {
+                        if (bgVideo) {
+                            await bgVideo.play();
+                            bgVideo.style.opacity = 1;
+                            slides.forEach(s => s.style.opacity = 0);
+                            if (typeof slideInterval !== 'undefined') clearInterval(slideInterval);
+                        }
+                    } catch (err) {
+                        console.warn('Erro ao reproduzir bgVideo:', err);
+                    }
+
+                    // remover o listener (apenas uma vez)
+                    startBtn.removeEventListener('click', handler);
+                });
+            }
+        });
+
+        function iniciarSite() {
+            // Iniciar música
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            if (backgroundMusic) {
+                backgroundMusic.play().catch(e => {
+                    console.log('Música:', e);
+                });
+            }
+            
+            // Mostrar todas as sections
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.add('visible');
+            });
+        }  
     </script>
 </body>
 </html>
